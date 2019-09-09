@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gamburger-2</title>
+</head>
+
+<body>
+
+    <script>
+        // Create class
+        class Humburger {
+            _toppings = [];
+            _types = {
+                SIZE_LARGE: {
+                    price: 50,
+                    callories: 100
+                },
+                SIZE_SMALL: {
+                    price: 20,
+                    callories: 400
+                },
+                STUFFING_CHEESE: {
+                    price: 10,
+                    callories: 20
+                },
+                STUFFING_POTATO: {
+                    price: 15,
+                    callories: 10
+                },
+                STUFFING_SALAD: {
+                    price: 20,
+                    callories: 5
+                },
+                TOPPING_MAYO: {
+                    price: 20,
+                    callories: 5
+                },
+                TOPPING_SPICE: {
+                    price: 15,
+                    callories: 0
+                },
+            };
+
+
+            constructor(size, stuffing) {
+                try {
+
+
+                    if (!(Object.keys(this._types).includes(size))) {
+                        throw new Error('Set the size  corectly');
+                    } else if (!(Object.keys(this._types).includes(stuffing) && stuffing != size)) {
+                        throw new Error('Set the stuffing corectly');
+                    }
+
+
+                    this._size = size;
+                    this._stuffing = stuffing;
+                    // this._types = { 
+                    //     SIZE_LARGE: {price: 50, callories: 100},
+                    //     SIZE_SMALL: {price: 20, callories: 400},
+                    //     STUFFING_CHEESE: {price: 10, callories: 20},
+                    //     STUFFING_POTATO: {price: 15, callories: 10},
+                    //     STUFFING_SALAD: {price: 20, callories: 5},
+                    //     TOPPING_MAYO: {price: 20, callories: 5},
+                    //     TOPPING_SPICE: {price: 15, callories: 0},
+                    // }
+                } catch (e) {
+                    console.log(e.message);
+                    return;
+                }
+            }
+
+
+            get size() { // get for reading only
+                return this._size
+            }
+
+
+            get stuffing() { // get for reading only
+                return this._stuffing
+            }
+
+
+            getToppings() { // get for reading only
+                try {
+                    if (this._toppings.length === 0) {
+                        throw new Error(`You didn't add any topping, yet`);
+                    }
+                    console.log(`You chose : ${this._toppings.join(', ')}`)
+                    return this._toppings.join(', ');
+                } catch (e) {
+                    console.log(e.message);
+                }
+            }
+
+
+            addTopping(value) { // Add topping
+                try {
+                    if (!(Object.keys(this._types).includes(value) && value != this._size && value != this
+                            ._stuffing)) {
+                        throw new Error('Set the topping corectly');
+
+
+                    } else if (this._toppings.includes(value)) {
+                        throw new Error(`You alredy add ${value}`);
+                    }
+
+
+                    this._toppings.push(value);
+                    console.log(`You added ${value}`);
+
+
+
+                } catch (e) {
+                    console.log(e.message);
+                    return;
+                }
+            }
+
+
+            removeTopping(value) { // remove topping
+                try {
+                    if (!(Object.keys(this._types).includes(value) && value != this._size && value != this
+                            ._stuffing)) {
+                        throw new Error("Enter topping's name corectly");
+
+
+                    } else if (!(this._toppings.includes(value))) {
+                        throw new Error(`This ${value} wasn't added`);
+                    }
+
+
+                    console.log(`You removed ${value}`);
+                    this._toppings = this._toppings.filter((elem) => elem != value);
+
+
+                } catch (e) {
+                    console.log(e.message);
+                    return;
+                }
+            }
+
+
+            calculatePrice() { //Calcularte Price
+                let price = 0;
+                let prop = [this.size, this.stuffing, this._toppings[0], this._toppings[1]]
+
+
+                for (let key in this._types) {
+                    if (prop.includes(key)) {
+                        price += this._types[key].price;
+                    }
+                }
+
+
+                console.log(`The price is: ${price},00EUR`);
+                return price;
+            }
+
+
+            calculateCalories() { //Calcularte calories
+                let callories = 0;
+                let prop = [this.size, this.stuffing, this._toppings[0], this._toppings[1]]
+
+
+                for (let key in this._types) {
+                    if (prop.includes(key)) {
+                        callories += this._types[key].callories;
+                    }
+                }
+
+
+                console.log(`The Energy value is: ${callories} Call`);
+                return callories;
+            }
+
+        }
+
+        let burger = new Humburger('SIZE_SMALL', 'STUFFING_POTATO');
+        console.log(burger);
+        burger.addTopping('TOPPING_MAYO');
+        burger.getToppings();
+    </script>
+
+</body>
+
+</html>
